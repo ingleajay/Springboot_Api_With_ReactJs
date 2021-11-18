@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+
+import LoadBook from './component/LoadBook';
+import Navbar from './component/Navbar';
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+import AddBook from './component/AddBook';
+import UpdateBook from './component/UpdateBook';
+import { useState } from 'react';
+
 
 function App() {
+
+  const [alert, setAlert] = useState(null)
+
+  const showAlert = (message , type) => {
+    setAlert({
+      msg:message,
+      type:type
+    })
+    setTimeout(() => {
+      setAlert(null)
+    }, 1500);
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <>
+      <BrowserRouter>
+      <Navbar title="Book library"/>
+      <Routes>
+      <Route exact path="/" element={<LoadBook />} />
+      <Route exact path="addbook" element={<AddBook showAlert={showAlert} alert={alert} />} />
+      <Route exact path="updatebook" element={<UpdateBook showAlert={showAlert} alert={alert}/>} />
+    </Routes>
+    
+       </BrowserRouter>
+      </>
   );
 }
 
